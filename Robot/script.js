@@ -139,7 +139,10 @@ class Ground{
                 }
                 if (parseInt(game.player.img_counter) != game.player.img_counter)
                 {
-                    game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)];
+                    if (game.player.image.complete)
+                    {
+                        game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)];
+                    }
                 }   
             }
 
