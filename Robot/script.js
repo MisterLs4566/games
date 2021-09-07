@@ -63,7 +63,7 @@ class Player{
         this.move1 = "sprites/move1.png"
         this.move2 = "sprites/move2.png"
         this.jump = "sprites/jump.png"
-        this.image = new Image();
+        this.image = document.createElement("img");
         this.image.src = this.static;
         this.pos_x = pos_x;
         this.pos_y = pos_y;
