@@ -13,7 +13,11 @@ class Game{
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
-         
+        this.mobile = false
+        if(/Android|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
+        {
+            this.mobile = true
+        }
     }
     clear(){
         this.c.clearRect(0, 0, this.width, this.height);
@@ -130,20 +134,22 @@ class Ground{
         {
             this.ground.x = this.x+this.scalex-20
             this.x -= this.speed;
-            if (game.player.move == true)
+            if (game.mobile == false)
             {
-                game.player.img_counter+=0.1
-                if (game.player.img_counter >= game.player.move_list.length)
+                if (game.player.move == true)
                 {
-                    game.player.img_counter = 0
-                }
-                if (parseInt(game.player.img_counter) != game.player.img_counter)
-                {
-                    if (game.player.image.complete)
+                    game.player.img_counter+=0.1
+                    if (game.player.img_counter >= game.player.move_list.length)
                     {
-                        game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)];
+                        game.player.img_counter = 0
                     }
-                }   
+                    if (parseInt(game.player.img_counter) != game.player.img_counter)
+                    {
+                        if (game.player.image.complete)
+                        {
+                            game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)];
+                        }   
+                }   }
             }
 
         }
