@@ -170,4 +170,4 @@ game = new Game();
 document.addEventListener("keypress", function(){game.keys(event)});
 document.addEventListener("mousedown", function(){game.mouse(event)});
 
-var interval = setInterval(function(){game.update()}, 17);
+var interval = setInterval(function(){game.update()}, 16);
