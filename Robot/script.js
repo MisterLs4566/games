@@ -13,6 +13,7 @@ class Game{
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
+         
     }
     clear(){
         this.c.clearRect(0, 0, this.width, this.height);
@@ -138,7 +139,8 @@ class Ground{
                 }
                 if (parseInt(game.player.img_counter) != game.player.img_counter)
                 {
-                    game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)]
+                    game.player.image = new Image();
+                    game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)];
                 }   
             }
 
