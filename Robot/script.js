@@ -39,6 +39,7 @@ class Game{
     mouse(event){
         if (this.player.y == this.player.pos_y)
         {
+            this.player.image = new Image();
             this.player.image.src = "sprites/jump.png"
             this.player.jump = true
         }
@@ -102,7 +103,8 @@ class Player{
                 {
                     this.move = true
                     this.img_counter = 0
-                    this.image.src = this.static
+                    this.image = new Image();
+                    this.image.src = this.static;
                 }
             }
         }
