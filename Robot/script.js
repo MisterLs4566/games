@@ -45,9 +45,9 @@ class Game{
         }
     }
     draw(event){
-        this.ground.image.onload = this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
-        this.ground.ground.image.onload = this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
-        this.player.image.onload = this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
+        this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
+        this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
+        this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
     }
     update(){
         this.clear();
