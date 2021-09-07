@@ -20,10 +20,15 @@ class Game{
     keys(event){
         if (event.key == " ")
         {
-            this.player.jump();
+            if (this.player.y == this.player.pos_y)
+        {
+            this.player.image.src = "sprites/jump.png"
+            this.player.jump = true
+        }
         } 
         if (event.key == "r")
         {
+            this.player.image.src = this.player.static
             this.player.x = this.player.pos_x;
             this.player.y = this.player.pos_y;
             this.ground.x = this.ground.pos_x
@@ -31,7 +36,11 @@ class Game{
         }
     }
     mouse(event){
-        this.player.jump()
+        if (this.player.y == this.player.pos_y)
+        {
+            this.player.image.src = "sprites/jump.png"
+            this.player.jump = true
+        }
     }
     draw(event){
         this.ground.image.onload = this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
@@ -48,27 +57,58 @@ class Game{
 }
 class Player{
     constructor(image, pos_x, pos_y, scale,){
+        this.static = image
+        this.move1 = "sprites/move1.png"
+        this.move2 = "sprites/move2.png"
+        this.jump = "sprites/jump.png"
         this.image = new Image();
-        this.image.src = image;
+        this.image.src = this.static;
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.x = pos_x;
         this.y = pos_y;
         this.scale = scale;
+        this.jump = false
+        this.move = true
+        this.move_list = [this.static, this.move1, this.move2]
+        this.img_counter = 0
     }
-    jump(){
-        if (this.y == this.pos_y)
-        {
-            this.y -= 140;
-        }
+    jump_(){
+        if (this.jump == true)
+            if (this.y > this.pos_y -140)
+            {
+                this.move = false
+                this.y -= 20;
+            }
+            else
+            {
+                this.jump = false
+            }
     }
     gravity(){
         if (this.y < this.pos_y){
-            this.y += 7;
+            if (this.jump == false)
+            {
+                this.move = false
+                this.y += 7;
+            }
+        }
+        else
+        {
+            if (this.jump == false)
+            {
+                if (this.move == false)
+                {
+                    this.move = true
+                    this.img_counter = 0
+                    this.image.src = this.static
+                }
+            }
         }
     }
     update(){
         this.gravity();
+        this.jump_();
     }
 }
 class Ground{
@@ -82,12 +122,26 @@ class Ground{
         this.scalex = scalex;
         this.scaley = scaley
         this.type = type
+        this.speed = 10
     }
     update(){
         if (this.type == 1)
         {
             this.ground.x = this.x+this.scalex-20
-            this.x -= 10;
+            this.x -= this.speed;
+            if (game.player.move == true)
+            {
+                game.player.img_counter+=0.1
+                if (game.player.img_counter >= game.player.move_list.length)
+                {
+                    game.player.img_counter = 0
+                }
+                if (parseInt(game.player.img_counter) != game.player.img_counter)
+                {
+                    game.player.image.src = game.player.move_list[parseInt(game.player.img_counter)]
+                }   
+            }
+
         }
         if (this.type == 2)
         {
