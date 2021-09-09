@@ -17,6 +17,7 @@ class Game{
         this.spikes = []
         this.x = 0
         this.mouse = false
+        alert(navigator.userAgent)
         if(/Android|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = true
