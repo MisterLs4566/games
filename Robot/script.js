@@ -1,7 +1,7 @@
 class Game{
     constructor(){
         const canvas = document.getElementById("canvas");
-        const c = canvas.getContext("2d");
+        const c = canvas.getContext("2d");  
         this.canvas = canvas
         this.c = c
         this.c.fillStyle = "black";
@@ -14,10 +14,10 @@ class Game{
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
         this.mobile = false
-        this.spikes = []
         this.x = 0
         this.mouse = false
         this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6));
+        this.spikes = [this.spike]
         //mobile devices
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
@@ -90,10 +90,12 @@ class Player{
         this.x = pos_x;
         this.y = pos_y;
         this.scale = scale;
-        this.jump = false
-        this.move = true
-        this.move_list = [this.static, this.move1, this.move2]
-        this.img_counter = 0
+        this.scalex = scale;
+        this.scaley = scale;
+        this.jump = false;
+        this.move = true;
+        this.move_list = [this.static, this.move1, this.move2];
+        this.img_counter = 0;
     }
     jump_(){
         if (this.jump == true)
@@ -192,14 +194,26 @@ class Spike{
         this.scaley = scaley
         this.speed = 20
     }
-    update(){
-        if (this.x > 0-this.scalex)
+    collision(){
+        if (game.player.x+game.player.scalex-20>this.x)
         {
+            if (game.player.y+game.player.scaley-30>this.y)
+            {
+                this.x = this.pos_x
+                this.y = this.pos_y
+            }  
+        }
+    }
+    update(){
+        this.collision()
+        if (this.x > 0-this.scalex)
+        { 
             this.x-= this.speed;
         }
         else
         {
             console.log("UFf")
+            this.y = this.pos_y
             this.x = this.pos_x
         }
     }
