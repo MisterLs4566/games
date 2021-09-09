@@ -14,6 +14,9 @@ class Game{
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
         this.mobile = false
+        this.spikes = []
+        this.x = 0
+        this.mouse = false
         if(/Android|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = true
@@ -40,7 +43,7 @@ class Game{
             this.ground.y = this.ground.pos_y
         }
     }
-    mouse(event){
+    mouse_(event){
         if (this.player.y == this.player.pos_y)
         {
             this.player.image.src = "sprites/jump.png"
@@ -51,13 +54,41 @@ class Game{
         this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
         this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
         this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
+        if (this.spikes.length>0)
+        {
+            for (var x=0; x<this.spikes.length; x++)
+            {
+                this.c.drawImage(this.spikes[x].image, this.spikes[x].x, this.spikes[x].y, this.spikes[x].scalex, this.spikes[x].scaley);
+            }
+        }
     }
-    update(){
+    spikes_(){
+        this.x = Math.floor(Math.random()*1000)
+        if (this.x == 10)
+        {
+            this.spike = new Spike("sprites/spike.PNG", this.width+50, this.height-(parseInt(this.height/2)), parseInt(this.height/3));
+            console.log(this.spike)
+            this.spikes.push(this.spike);
+            this.spike.number = this.spikes.length-1;
+            console.log("sprites: ", this.spikes)
+        }
+    }
+    update(){    
+        const canvas = document.getElementById("canvas");
+        this.canvas = canvas
         this.clear();
         this.draw();
         this.player.update();
         this.ground.update();
         this.ground.ground.update();
+        this.spikes_();
+        if (this.spikes.length>0)
+        {
+            for (var x=0; x<this.spikes.length; x++)
+            {
+                this.spikes[x].update()
+            }
+        }
     }
 }
 class Player{
@@ -128,6 +159,7 @@ class Ground{
         this.scaley = scaley
         this.type = type
         this.speed = 10
+        this.instantiate = false
     }
     update(){
         if (this.type == 1)
@@ -164,16 +196,29 @@ class Ground{
 }
 class Spike{
     constructor(image, pos_x, pos_y, scalex, scaley){
-        this.image = new Image();
+        this.image = document.createElement("img");
         this.image.src = image;
+        this.x = pos_x
+        this.y = pos_y
         this.pos_x = pos_x
         this.pos_y = pos_y
         this.scalex = scalex
         this.scaley = scaley
+        this.speed = 10
+    }
+    update(){
+        if (this.x >= game.width-this.scalex)
+        {
+            this.x--;
+        }
+        else
+        {
+            game.spikes.splice(this.number)
+            console.log("destroy")
+            delete this;
+        }
     }
 }
 game = new Game();
 document.addEventListener("keypress", function(){game.keys(event)});
-document.addEventListener("mousedown", function(){game.mouse(event)});
-
 var interval = setInterval(function(){game.update()}, 16);
