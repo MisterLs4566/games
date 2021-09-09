@@ -17,10 +17,13 @@ class Game{
         this.spikes = []
         this.x = 0
         this.mouse = false
-        if(/Android|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
+        this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6));
+        //mobile devices
+        if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = true
         }
+        //Ipad
         if (navigator.userAgent == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15")
         {
             this.mobile = true
@@ -58,24 +61,9 @@ class Game{
         this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
         this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
         this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
-        if (this.spikes.length>0)
-        {
-            for (var x=0; x<this.spikes.length; x++)
-            {
-                this.c.drawImage(this.spikes[x].image, this.spikes[x].x, this.spikes[x].y, this.spikes[x].scalex, this.spikes[x].scaley);
-            }
-        }
+        this.c.drawImage(this.spike.image, this.spike.x, this.spike.y, this.spike.scalex, this.spike.scaley);
     }
     spikes_(){
-        this.x = Math.floor(Math.random()*1000)
-        if (this.x == 10)
-        {
-            this.spike = new Spike("sprites/spike.PNG", this.width+50, this.height-(parseInt(this.height/2)), parseInt(this.height/3));
-            console.log(this.spike)
-            this.spikes.push(this.spike);
-            this.spike.number = this.spikes.length-1;
-            console.log("sprites: ", this.spikes)
-        }
     }
     update(){    
         const canvas = document.getElementById("canvas");
@@ -86,13 +74,7 @@ class Game{
         this.ground.update();
         this.ground.ground.update();
         this.spikes_();
-        if (this.spikes.length>0)
-        {
-            for (var x=0; x<this.spikes.length; x++)
-            {
-                this.spikes[x].update()
-            }
-        }
+        this.spike.update()
     }
 }
 class Player{
@@ -208,18 +190,17 @@ class Spike{
         this.pos_y = pos_y
         this.scalex = scalex
         this.scaley = scaley
-        this.speed = 10
+        this.speed = 20
     }
     update(){
-        if (this.x >= game.width-this.scalex)
+        if (this.x > 0-this.scalex)
         {
-            this.x--;
+            this.x-= this.speed;
         }
         else
         {
-            game.spikes.splice(this.number)
-            console.log("destroy")
-            delete this;
+            console.log("UFf")
+            this.x = this.pos_x
         }
     }
 }
