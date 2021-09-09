@@ -17,8 +17,11 @@ class Game{
         this.spikes = []
         this.x = 0
         this.mouse = false
-        alert(navigator.userAgent)
         if(/Android|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
+        {
+            this.mobile = true
+        }
+        if (navigator.userAgent == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15")
         {
             this.mobile = true
         }
