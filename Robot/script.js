@@ -10,6 +10,7 @@ class Game{
         this.c.imageSmoothingEnabled = false;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
+        this.state = 1
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
@@ -32,31 +33,6 @@ class Game{
     clear(){
         this.c.clearRect(0, 0, this.width, this.height);
     }
-    keys(event){
-        if (event.key == " ")
-        {
-            if (this.player.y == this.player.pos_y)
-        {
-            this.player.image.src = "sprites/jump.png"
-            this.player.jump = true
-        }
-        } 
-        if (event.key == "r")
-        {
-            this.player.image.src = this.player.static
-            this.player.x = this.player.pos_x;
-            this.player.y = this.player.pos_y;
-            this.ground.x = this.ground.pos_x
-            this.ground.y = this.ground.pos_y
-        }
-    }
-    mouse_(event){
-        if (this.player.y == this.player.pos_y)
-        {
-            this.player.image.src = "sprites/jump.png"
-            this.player.jump = true
-        }
-    }
     draw(event){
         this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
         this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
@@ -75,6 +51,48 @@ class Game{
         this.ground.ground.update();
         this.spikes_();
         this.spike.update()
+    }
+    keys(event){
+        if (this.state == 1)
+        {
+            this.interval = setInterval(function(){game.update()}, 16);
+            this.state = 2;
+        }
+        else if (this.state == 2)
+        {
+            if (event.key == " ")
+            {
+                if (this.player.y == this.player.pos_y)
+                {
+                    this.player.image.src = "sprites/jump.png"
+                    this.player.jump = true
+                }
+            } 
+            if (event.key == "r")
+            {
+                this.player.image.src = this.player.static
+                this.player.x = this.player.pos_x;
+                this.player.y = this.player.pos_y;
+                this.ground.x = this.ground.pos_x
+                this.ground.y = this.ground.pos_y
+            }
+        }
+        
+    }
+    mouse_(event){
+        if (this.state == 1)
+        {
+            this.interval = setInterval(function(){game.update()}, 16);
+            this.state = 2;
+        }
+        else if (this.state == 2)
+        {
+            if (this.player.y == this.player.pos_y)
+            {
+                this.player.image.src = "sprites/jump.png"
+                this.player.jump = true
+            }
+        }
     }
 }
 class Player{
@@ -199,8 +217,10 @@ class Spike{
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
-                this.x = this.pos_x
-                this.y = this.pos_y
+                game.clear()
+                game.constructor()
+                clearInterval(game.interval)
+                game.state = 1
             }  
         }
     }
@@ -212,12 +232,10 @@ class Spike{
         }
         else
         {
-            console.log("UFf")
             this.y = this.pos_y
             this.x = this.pos_x
         }
     }
 }
 game = new Game();
-document.addEventListener("keypress", function(){game.keys(event)});
-var interval = setInterval(function(){game.update()}, 16);
+document.addEventListener("keypress", function(){game.keys(event)});
