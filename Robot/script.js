@@ -89,6 +89,7 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, 16);
+            canvas.style = "background-color: rgb(0, 162, 255)"
             this.state = 2;
         }
         else if (this.state == 2)
@@ -107,6 +108,7 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, 16);
+            canvas.style = "background-color: rgb(0, 162, 255)"
             this.state = 2;
         }
         else if (this.state == 2)
@@ -141,10 +143,10 @@ class Player{
     }
     jump_(){
         if (this.jump == true)
-            if (this.y > this.pos_y -140)
+            if (this.y > this.pos_y -150)
             {
                 this.move = false
-                this.y -= 20;
+                this.y -= 15;
             }
             else
             {
@@ -156,7 +158,7 @@ class Player{
             if (this.jump == false)
             {
                 this.move = false
-                this.y += 7;
+                this.y += 10;
             }
         }
         else
@@ -234,7 +236,7 @@ class Spike{
         this.pos_y = pos_y;
         this.scalex = scalex;
         this.scaley = scaley;
-        this.speed_s = 20;
+        this.speed_s = 22;
         this.speed_d = 5;
         this.speed = 20;
         this.time = 0;
@@ -245,6 +247,7 @@ class Spike{
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
+                canvas.style = "background-color: black"
                 game.clear();
                 game.player.x = game.player.pos_x;
                 game.player.y = game.player.pos_y;
