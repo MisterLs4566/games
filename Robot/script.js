@@ -50,7 +50,6 @@ class Game{
             {
                 if (this.spikes[x].time < this.spike_time)
                 {
-                    console.log("false")
                     this.s_t = false;
                 }
             }
