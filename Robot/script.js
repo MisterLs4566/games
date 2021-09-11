@@ -68,14 +68,6 @@ class Game{
                     this.player.jump = true
                 }
             } 
-            if (event.key == "r")
-            {
-                this.player.image.src = this.player.static
-                this.player.x = this.player.pos_x;
-                this.player.y = this.player.pos_y;
-                this.ground.x = this.ground.pos_x
-                this.ground.y = this.ground.pos_y
-            }
         }
         
     }
@@ -218,8 +210,11 @@ class Spike{
             if (game.player.y+game.player.scaley-30>this.y)
             {
                 game.clear()
-                game.constructor()
-                clearInterval(game.interval)
+                game.player.x = game.player.pos_x
+                game.player.y = game.player.pos_y
+                game.ground.x = game.ground.pos_x
+                this.x = this.pos_x
+                this.clear = clearInterval(game.interval)
                 game.state = 1
             }  
         }
