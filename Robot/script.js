@@ -34,6 +34,14 @@ class Game{
         {
             this.mobile = true
         }
+        if (this.mobile == false)
+        {
+            this.frequence = 16
+        }
+        else
+        {
+            this.frequence = 33
+        }
     }
     clear(){
         this.c.clearRect(0, 0, this.width, this.height);
@@ -92,7 +100,7 @@ class Game{
     keys(event){
         if (this.state == 1)
         {
-            this.interval = setInterval(function(){game.update()}, 16);
+            this.interval = setInterval(function(){game.update()}, game.frequence);
             canvas.style = "background-color: rgb(0, 162, 255)"
             this.state = 2;
         }
@@ -122,7 +130,7 @@ class Game{
     mouse_(event){
         if (this.state == 1)
         {
-            this.interval = setInterval(function(){game.update()}, 16);
+            this.interval = setInterval(function(){game.update()}, game.frequence);
             canvas.style = "background-color: rgb(0, 162, 255)"
             this.state = 2;
         }
