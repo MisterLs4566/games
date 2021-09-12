@@ -22,6 +22,8 @@ class Game{
         this.spike3 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
         this.spikes = [this.spike, this.spike2, this.spike3]
         this.spike_time = 50
+        this.pressed = false
+        this.start = false
         //mobile devices
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
@@ -51,7 +53,6 @@ class Game{
                 if (this.spikes[x].time < this.spike_time)
                 {
                     this.s_t = false;
-                    break
                 }
             }
 
@@ -69,7 +70,6 @@ class Game{
                         console.log(this.spikes[x])
                         this.spikes[x].speed = this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d
                         this.created = true
-                        break
                     }
                 }
             }
@@ -83,7 +83,10 @@ class Game{
         this.player.update();
         this.ground.update();
         this.ground.ground.update();
-        this.spikes_();
+        if (this.start == true)
+        {
+            this.spikes_();
+        }
         this.spike.update()
     }
     keys(event){
@@ -97,12 +100,23 @@ class Game{
         {
             if (event.key == " ")
             {
-                if (this.player.y == this.player.pos_y)
+                if (this.pressed == false)
                 {
-                    this.player.image.src = "sprites/jump.png"
-                    this.player.jump = true
+                    if (this.player.y == this.player.pos_y)
+                    {
+                        this.player.image.src = "sprites/jump.png"
+                        this.player.jump = true
+                        this.pressed = true
+                    }
                 }
             } 
+        }
+    }
+    key_up(event)
+    {
+        if (this.state == 2)
+        {
+            this.pressed = false
         }
     }
     mouse_(event){
@@ -152,6 +166,10 @@ class Player{
             else
             {
                 this.jump = false
+                if (game.start == false)
+                {
+                    game.start = true
+                }
             }
     }
     gravity(){
@@ -237,7 +255,7 @@ class Spike{
         this.pos_y = pos_y;
         this.scalex = scalex;
         this.scaley = scaley;
-        this.speed_s = 22;
+        this.speed_s = 20;
         this.speed_d = 5;
         this.speed = 20;
         this.time = 0;
@@ -248,7 +266,9 @@ class Spike{
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
-                canvas.style = "background-color: black"
+                this.time = 0
+                game.start = false
+                canvas.style = "background-color: rgba(0, 120, 218, 0.452)"
                 game.clear();
                 game.player.x = game.player.pos_x;
                 game.player.y = game.player.pos_y;
@@ -264,9 +284,12 @@ class Spike{
         {
             this.collision();
             if (this.x > 0-this.scalex)
-            { 
-                this.time += 1;
-                this.x-= this.speed;
+            {
+                if (game.start == true)
+                {
+                    this.time += 1;
+                    this.x-= this.speed;
+                } 
             }
             else
             {
@@ -280,3 +303,4 @@ class Spike{
 }
 game = new Game();
 document.addEventListener("keypress", function(){game.keys(event)});
+document.addEventListener("keyup", function(){game.key_up(event)});
