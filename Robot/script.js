@@ -21,9 +21,9 @@ class Game{
         this.spike2 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
         this.spike3 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
         this.spikes = [this.spike, this.spike2, this.spike3]
-        this.spike_time = 50
         this.pressed = false
         this.start = false
+        this.spike_time = 50
         //mobile devices
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
@@ -40,6 +40,7 @@ class Game{
         }
         else
         {
+            this.spike_time/=2
             this.frequence = 33
         }
     }
@@ -75,7 +76,6 @@ class Game{
                     if(this.spikes[x].time == 0)
                     {
                         this.spikes[x].instantiate = true;
-                        console.log(this.spikes[x])
                         this.spikes[x].speed = this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d
                         this.created = true
                     }
@@ -163,13 +163,20 @@ class Player{
         this.move = true;
         this.move_list = [this.static, this.move1, this.move2];
         this.img_counter = 0;
+        this.grav = 10;
+        this.jump_speed = 15;
+        if (game.mobile == true)
+        {
+            this.grav *= 2;
+            this.jump_speed *= 2;
+        }
     }
     jump_(){
         if (this.jump == true)
             if (this.y > this.pos_y -150)
             {
                 this.move = false
-                this.y -= 15;
+                this.y -= this.jump_speed;
             }
             else
             {
@@ -185,7 +192,7 @@ class Player{
             if (this.jump == false)
             {
                 this.move = false
-                this.y += 10;
+                this.y += this.grav;
             }
         }
         else
@@ -219,6 +226,11 @@ class Ground{
         this.type = type
         this.speed = 10
         this.instantiate = false
+        this.image_speed = 0.1
+        if (game.mobile==true)
+        {
+            this.image_speed *= 2
+        }
     }
     update(){
         if (this.type == 1)
@@ -229,7 +241,7 @@ class Ground{
             {
                 if (game.player.move == true)
                 {
-                    game.player.img_counter+=0.1
+                    game.player.img_counter+=this.image_speed
                     if (game.player.img_counter >= game.player.move_list.length)
                     {
                         game.player.img_counter = 0
@@ -266,6 +278,12 @@ class Spike{
         this.speed_s = 20;
         this.speed_d = 5;
         this.speed = 20;
+        if (game.mobile == true)
+        {
+            this.speed_s *= 2;
+            this.speed_d *= 2;
+            this.speed *= 2;
+        }
         this.time = 0;
         this.instantiate = inst;
     }
