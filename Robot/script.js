@@ -17,11 +17,11 @@ class Game{
         this.mobile = false
         this.x = 0
         this.mouse = false
-        this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6));
-        this.spike2 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6));
-        this.spike3 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6));
-        this.spikes = [this.spike, this.spike2]
-        this.spike_time = 5
+        this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), true);
+        this.spike2 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
+        this.spike3 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
+        this.spikes = [this.spike, this.spike2, this.spike3]
+        this.spike_time = 50
         //mobile devices
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
@@ -43,14 +43,15 @@ class Game{
         this.c.drawImage(this.spike.image, this.spike.x, this.spike.y, this.spike.scalex, this.spike.scaley);
     }
     spikes_(){
+        this.s_t = true;
         for (var x=0; x<this.spikes.length; x++)
         {
-            this.s_t = true;
-            if (this.spikes[x].time != 0)
+            if (this.spikes[x].instantiate == true)
             {
                 if (this.spikes[x].time < this.spike_time)
                 {
                     this.s_t = false;
+                    break
                 }
             }
 
@@ -65,9 +66,10 @@ class Game{
                     if(this.spikes[x].time == 0)
                     {
                         this.spikes[x].instantiate = true;
+                        console.log(this.spikes[x])
                         this.spikes[x].speed = this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d
-
                         this.created = true
+                        break
                     }
                 }
             }
@@ -226,7 +228,7 @@ class Ground{
     }
 }
 class Spike{
-    constructor(image, pos_x, pos_y, scalex, scaley){
+    constructor(image, pos_x, pos_y, scalex, scaley, inst){
         this.image = document.createElement("img");
         this.image.src = image;
         this.x = pos_x;
@@ -239,7 +241,7 @@ class Spike{
         this.speed_d = 5;
         this.speed = 20;
         this.time = 0;
-        this.instantiate = false;
+        this.instantiate = inst;
     }
     collision(){
         if (game.player.x+game.player.scalex-20>this.x)
