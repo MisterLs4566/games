@@ -1,4 +1,6 @@
-h1{font-family:Georgia, 'Times New Roman', Times, serif, Times, serif; margin: 0; color: rgb(255, 255, 255); text-shadow: rgb(0, 0, 0) 3px 4px;text-align: center; font-size: 40px;}
-a{color: rgb(0, 0, 0); text-align: center; font-family:Georgia, 'Times New Roman', Times, serif, Times, serif;margin: 0; font-size: 30px}
-h2{text-align: center;}
-body{color: blue; background-color: rgb(179, 180, 104); background-size: 100%;}
+h1{font-family:Georgia, 'Times New Roman', Times, serif, Times, serif; margin: 0; font-size: 75; color: rgb(255, 255, 255); text-shadow: rgb(0, 0, 0) 3px 4px; text-align: center; user-select: none;}
+a{color: rgb(255, 255, 255); text-align: center; font-family:Georgia, 'Times New Roman', Times, serif, Times, serif;margin: 0; font-size: 60}
+h2{text-align: center;}
+body{background-color: rgb(93, 177, 138); background-size: 100%;}
+canvas{background-color: black; border:solid 5px #000000; user-select: none;}
+#game{text-align: center;}
