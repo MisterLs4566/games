@@ -14,7 +14,7 @@ class Game{
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
-        this.mobile = true
+        this.mobile = false
         this.x = 0
         this.mouse = false
         this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), true);
