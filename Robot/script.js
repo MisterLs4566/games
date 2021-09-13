@@ -43,7 +43,7 @@ class Game{
             this.spike.speed_d = parseInt(this.spike.speed_d * this.factor);
             this.spike.speed_s = parseInt(this.spike.speed_s * this.factor);
             this.player.grav = parseInt(this.player.grav*this.factor);
-            this.player.jump_speed = parseInt(this.player.jump_speed*this.factor);
+            this.player.jump_speed = parseInt(this.player.jump_speed*this.factor)-10;
             this.ground.speed = parseInt(this.ground.speed * this.factor);
             this.ground.ground.speed = parseInt(this.ground.ground.speed * this.factor);
         }
