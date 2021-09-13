@@ -116,9 +116,12 @@ class Game{
                 {
                     if (this.player.y == this.player.pos_y)
                     {
-                        this.player.image.src = "sprites/jump.png"
-                        this.player.jump = true
-                        this.pressed = true
+                        if (this.player.image.src != this.player.jump)
+                        {
+                            this.player.image.src = "sprites/jump.png"
+                            this.player.jump = true
+                            this.pressed = true
+                        }
                     }
                 }
             } 
@@ -142,8 +145,11 @@ class Game{
         {
             if (this.player.y == this.player.pos_y)
             {
-                this.player.image.src = "sprites/jump.png"
-                this.player.jump = true
+                if (this.player.image.src != this.player.jump)
+                {
+                    this.player.image.src = "sprites/jump.png"
+                    this.player.jump = true
+                }
             }
         }
     }
