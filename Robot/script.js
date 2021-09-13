@@ -14,34 +14,38 @@ class Game{
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
-        this.mobile = false
+        this.mobile = true
         this.x = 0
         this.mouse = false
         this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), true);
-        this.spike2 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
-        this.spike3 = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), false);
-        this.spikes = [this.spike, this.spike2, this.spike3]
+        this.spikes = [this.spike]
         this.pressed = false
         this.start = false
         this.spike_time = 50
-        //mobile devices
+        this.factor = 2
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
-            this.mobile = true
+            this.mobile = true;
         }
         //Ipad
         if (navigator.userAgent == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15")
         {
-            this.mobile = true
+            this.mobile = true;
         }
         if (this.mobile == false)
         {
-            this.frequence = 16
+            this.frequence = 16;
         }
         else
         {
-            this.spike_time/=2
-            this.frequence = 33
+            this.frequence = 32;
+            this.spike.speed = parseInt(this.spike.speed*this.factor);
+            this.spike.speed_d = parseInt(this.spike.speed_d * this.factor);
+            this.spike.speed_s = parseInt(this.spike.speed_s * this.factor);
+            this.player.grav = parseInt(this.player.grav*this.factor);
+            this.player.jump_speed = parseInt(this.player.jump_speed*this.factor);
+            this.ground.speed = parseInt(this.ground.speed * this.factor);
+            this.ground.ground.speed = parseInt(this.ground.ground.speed * this.factor);
         }
     }
     clear(){
@@ -165,11 +169,6 @@ class Player{
         this.img_counter = 0;
         this.grav = 10;
         this.jump_speed = 15;
-        if (game.mobile == true)
-        {
-            this.grav *= 2;
-            this.jump_speed *= 2;
-        }
     }
     jump_(){
         if (this.jump == true)
@@ -223,14 +222,10 @@ class Ground{
         this.y = pos_y;
         this.scalex = scalex;
         this.scaley = scaley
-        this.type = type
-        this.speed = 10
-        this.instantiate = false
-        this.image_speed = 0.1
-        if (game.mobile==true)
-        {
-            this.image_speed *= 2
-        }
+        this.type = type;
+        this.speed = 10;
+        this.instantiate = false;
+        this.image_speed = 0.1;
     }
     update(){
         if (this.type == 1)
@@ -278,12 +273,6 @@ class Spike{
         this.speed_s = 20;
         this.speed_d = 5;
         this.speed = 20;
-        if (game.mobile == true)
-        {
-            this.speed_s *= 2;
-            this.speed_d *= 2;
-            this.speed *= 2;
-        }
         this.time = 0;
         this.instantiate = inst;
     }
