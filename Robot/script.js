@@ -80,7 +80,7 @@ class Game{
                     if(this.spikes[x].time == 0)
                     {
                         this.spikes[x].instantiate = true;
-                        this.spikes[x].speed = this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d
+                        this.spikes[x].speed = parseInt(this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d)
                         this.created = true
                     }
                 }
@@ -105,7 +105,10 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, game.frequence);
-            canvas.style = "background-color: rgb(0, 162, 255)"
+            canvas.style = "background-color: rgb(0, 162, 255)";
+            this.ground.speed = this.ground.old_speed;
+            this.spike.speed_d = 0;
+            this.spike.speed = this.spike.speed_s;
             this.state = 2;
         }
         else if (this.state == 2)
@@ -118,6 +121,7 @@ class Game{
                     {
                         if (this.player.image.src != this.player.jump)
                         {
+                            this.player.scaley = parseInt(this.player.scaley/1.5)
                             this.player.image.src = "sprites/jump.png"
                             this.player.jump = true
                             this.pressed = true
@@ -138,7 +142,10 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, game.frequence);
-            canvas.style = "background-color: rgb(0, 162, 255)"
+            canvas.style = "background-color: rgb(0, 162, 255)";
+            this.ground.speed = this.ground.old_speed;
+            this.spike.speed_d = 0;
+            this.spike.speed = this.spike.speed_s;
             this.state = 2;
         }
         else if (this.state == 2)
@@ -147,6 +154,7 @@ class Game{
             {
                 if (this.player.image.src != this.player.jump)
                 {
+                    this.player.scaley = parseInt(this.player.scaley/1.5) 
                     this.player.image.src = "sprites/jump.png"
                     this.player.jump = true
                 }
@@ -169,6 +177,7 @@ class Player{
         this.scale = scale;
         this.scalex = scale;
         this.scaley = scale;
+        this.old_scaley = scale;
         this.jump = false;
         this.move = true;
         this.move_list = [this.static, this.move1, this.move2];
@@ -206,6 +215,7 @@ class Player{
             {
                 if (this.move == false)
                 {
+                    this.scaley = this.old_scaley
                     this.move = true
                     this.img_counter = 0
                     this.image.src = this.static;
@@ -230,6 +240,7 @@ class Ground{
         this.scaley = scaley
         this.type = type;
         this.speed = 10;
+        this.old_speed = 10;
         this.instantiate = false;
         this.image_speed = 0.1;
     }
@@ -237,7 +248,7 @@ class Ground{
         if (this.type == 1)
         {
             this.ground.x = this.x+this.scalex-20
-            this.x -= this.speed;
+            this.x -= parseInt(this.speed);
             if (game.mobile == false)
             {
                 if (game.player.move == true)
@@ -277,7 +288,7 @@ class Spike{
         this.scalex = scalex;
         this.scaley = scaley;
         this.speed_s = 20;
-        this.speed_d = 5;
+        this.speed_d = 0;
         this.speed = 20;
         this.time = 0;
         this.instantiate = inst;
@@ -314,6 +325,11 @@ class Spike{
             }
             else
             {
+                if (this.speed_d < 20)
+                {
+                    this.speed_d += 0.5;
+                    game.ground.speed += 0.3; 
+                }
                 this.instantiate = false;
                 this.y = this.pos_y;
                 this.x = this.pos_x;
