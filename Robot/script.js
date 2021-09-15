@@ -24,6 +24,7 @@ class Game{
         this.spike_time = 50;
         this.factor = 2;
         this.coins = 0;
+        this.coin_up = 1;
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = true;
@@ -39,6 +40,7 @@ class Game{
         }
         else
         {
+            this.coin_up = 2;
             this.frequence = 32;
             this.spike.speed = parseInt(this.spike.speed*this.factor);
             this.spike.speed_d = parseInt(this.spike.speed_d * this.factor);
@@ -96,7 +98,7 @@ class Game{
     update(){
         if (this.start == true)
         {
-            this.coins+=1;
+            this.coins+=this.coin_up;
         }    
         const canvas = document.getElementById("canvas");
         const c = canvas.getContext("2d");
