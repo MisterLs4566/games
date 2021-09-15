@@ -11,7 +11,7 @@ class Game{
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.state = 1;
-        this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
+        this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19)-5, this.width, parseInt(this.width/2), 1);
         this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2);
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
         this.mobile = false;
@@ -119,7 +119,7 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, game.frequence);
-            canvas.style = "background-color: rgb(0, 162, 255)";
+            canvas.style = "background-color: black";
             this.ground.speed = this.ground.old_speed;
             this.ground.image_speed = this.ground.old_image_speed;
             this.spike.speed_d = 0;
@@ -158,7 +158,7 @@ class Game{
         if (this.state == 1)
         {
             this.interval = setInterval(function(){game.update()}, game.frequence);
-            canvas.style = "background-color: rgb(0, 162, 255)";
+            canvas.style = "background-color: black";
             this.ground.speed = this.ground.old_speed;
             this.ground.image_speed = this.ground.old_image_speed;
             this.spike.speed_d = 0;
@@ -324,7 +324,7 @@ class Spike{
                 game.canvas = canvas;
                 this.time = 0;
                 game.start = false;
-                game.canvas.style = "background-color: rgba(0, 120, 218, 0.452)";
+                game.canvas.style = "background-color: rgb(51, 54, 59)";
                 game.c.font = "40px Times New Roman";
                 game.c.fillStyle = "white";
                 game.c.textAlign = "center";
