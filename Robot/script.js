@@ -58,6 +58,10 @@ class Game{
         this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
         this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
         this.c.drawImage(this.spike.image, this.spike.x, this.spike.y, this.spike.scalex, this.spike.scaley);
+        this.c.font = "40px Times New Roman";
+        this.c.fillStyle = "white";
+        this.c.textAlign = "center";
+        this.c.fillText(this.coins, parseInt(this.width/2), 40);
     }
     spikes_(){
         this.s_t = true;
@@ -311,6 +315,7 @@ class Spike{
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
+                game.clear();
                 const canvas = document.getElementById("canvas");
                 const c = canvas.getContext("2d");
                 game.c = c;
@@ -318,11 +323,11 @@ class Spike{
                 this.time = 0;
                 game.start = false;
                 game.canvas.style = "background-color: rgba(0, 120, 218, 0.452)";
-                game.c.font = "30px Arial";
-                game.c.fillStyle = "red";
+                game.c.font = "40px Times New Roman";
+                game.c.fillStyle = "white";
                 game.c.textAlign = "center";
-                game.c.fillText("HELLO WORLD", 10, 50);
-                game.clear();
+                game.c.fillText("Game Over", parseInt(game.width/2), parseInt(game.height/2-50));
+                game.c.fillText(game.coins+" points", parseInt(game.width/2), parseInt(game.height/2+50));
                 game.player.x = game.player.pos_x;
                 game.player.y = game.player.pos_y;
                 game.ground.x = game.ground.pos_x;
