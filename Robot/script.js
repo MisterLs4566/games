@@ -10,19 +10,20 @@ class Game{
         this.c.imageSmoothingEnabled = false;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
-        this.state = 1
+        this.state = 1;
         this.ground = new Ground("sprites/ground1.PNG", 0, this.height-parseInt(this.width/2.19), this.width, parseInt(this.width/2), 1);
-        this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2)
+        this.ground.ground = new Ground("sprites/ground1.PNG", this.ground.pos_x+this.ground.scalex, this.ground.pos_y, this.ground.scalex, this.ground.scaley, 2);
         this.player = new Player("sprites/static.png", 10, this.height-(parseInt(this.height/1.75)), parseInt(this.height/3));
-        this.mobile = false
-        this.x = 0
-        this.mouse = false
+        this.mobile = false;
+        this.x = 0;
+        this.mouse = false;
         this.spike = new Spike("sprites/spike.PNG", this.width, this.player.y+60, parseInt(this.height/6), parseInt(this.height/6), true);
-        this.spikes = [this.spike]
-        this.pressed = false
-        this.start = false
-        this.spike_time = 50
-        this.factor = 2
+        this.spikes = [this.spike];
+        this.pressed = false;
+        this.start = false;
+        this.spike_time = 50;
+        this.factor = 2;
+        this.coins = 0;
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = true;
@@ -88,8 +89,14 @@ class Game{
             }
         }
     }
-    update(){    
+    update(){
+        if (this.start == true)
+        {
+            this.coins+=1;
+        }    
         const canvas = document.getElementById("canvas");
+        const c = canvas.getContext("2d");
+        this.c = c;
         this.canvas = canvas
         this.clear();
         this.draw();
@@ -108,8 +115,10 @@ class Game{
             this.interval = setInterval(function(){game.update()}, game.frequence);
             canvas.style = "background-color: rgb(0, 162, 255)";
             this.ground.speed = this.ground.old_speed;
+            this.ground.image_speed = this.ground.old_image_speed;
             this.spike.speed_d = 0;
             this.spike.speed = this.spike.speed_s;
+            this.coins = 0;
             this.state = 2;
         }
         else if (this.state == 2)
@@ -145,8 +154,10 @@ class Game{
             this.interval = setInterval(function(){game.update()}, game.frequence);
             canvas.style = "background-color: rgb(0, 162, 255)";
             this.ground.speed = this.ground.old_speed;
+            this.ground.image_speed = this.ground.old_image_speed;
             this.spike.speed_d = 0;
             this.spike.speed = this.spike.speed_s;
+            this.coins = 0;
             this.state = 2;
         }
         else if (this.state == 2)
@@ -244,11 +255,12 @@ class Ground{
         this.old_speed = 10;
         this.instantiate = false;
         this.image_speed = 0.1;
+        this.old_image_speed = 0.1;
     }
     update(){
         if (this.type == 1)
         {
-            this.ground.x = this.x+this.scalex-20
+            this.ground.x = parseInt(this.x+this.scalex-20)
             this.x -= parseInt(this.speed);
             if (game.mobile == false)
             {
@@ -299,9 +311,17 @@ class Spike{
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
-                this.time = 0
-                game.start = false
-                canvas.style = "background-color: rgba(0, 120, 218, 0.452)"
+                const canvas = document.getElementById("canvas");
+                const c = canvas.getContext("2d");
+                game.c = c;
+                game.canvas = canvas;
+                this.time = 0;
+                game.start = false;
+                game.canvas.style = "background-color: rgba(0, 120, 218, 0.452)";
+                game.c.font = "30px Arial";
+                game.c.fillStyle = "red";
+                game.c.textAlign = "center";
+                game.c.fillText("HELLO WORLD", 10, 50);
                 game.clear();
                 game.player.x = game.player.pos_x;
                 game.player.y = game.player.pos_y;
@@ -330,6 +350,7 @@ class Spike{
                 {
                     this.speed_d += 0.5;
                     game.ground.speed += 0.3; 
+                    game.ground.image_speed += 0.02;
                 }
                 this.instantiate = false;
                 this.y = this.pos_y;
