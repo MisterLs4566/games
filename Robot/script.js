@@ -202,47 +202,34 @@ class Player{
         this.img_counter = 0;
         this.grav = 10;
         this.jump_speed = 15;
+        this.jump_y = this.pos_y
+        this.jump_x = -12.247;
+        this.old_jump_x = -12.247;
     }
     jump_(){
-        if (this.jump == true)
-            if (this.y > this.pos_y -150)
+        if(this.jump == true){
+            this.move = false
+            this.jump_x +=0.8
+            this.jump_y = parseInt(Math.pow(this.jump_x, 2)-150);
+            this.y = (this.jump_y+game.height-this.pos_y-40);
+            if (parseInt(this.jump_x) == 12)
             {
-                this.move = false
-                this.y -= this.jump_speed;
-            }
-            else
-            {
-                this.jump = false
+                console.log("test")
                 if (game.start == false)
                 {
-                    game.start = true
+                    game.start = true;
                 }
-            }
-    }
-    gravity(){
-        if (this.y < this.pos_y){
-            if (this.jump == false)
-            {
-                this.move = false
-                this.y += this.grav;
-            }
-        }
-        else
-        {
-            if (this.jump == false)
-            {
-                if (this.move == false)
-                {
-                    this.scaley = this.old_scaley
-                    this.move = true
-                    this.img_counter = 0
-                    this.image.src = this.static;
-                }
+                this.jump_x = this.old_jump_x
+                this.y = this.pos_y
+                this.jump = false;
+                this.scaley = this.old_scaley
+                this.move = true
+                this.img_counter = 0
+                this.image.src = this.static;
             }
         }
     }
     update(){
-        this.gravity();
         this.jump_();
     }
 }
