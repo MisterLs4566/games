@@ -25,6 +25,7 @@ class Game{
         this.factor = 2;
         this.coins = 0;
         this.coin_up = 1;
+        this.higher = false;
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
             this.mobile = false;
@@ -87,6 +88,23 @@ class Game{
                 {
                     if(this.spikes[x].time == 0)
                     {
+                        if (parseInt(Math.random()*2) == 4)
+                        {
+                            this.higher = true
+                        }
+                        else
+                        {
+                            this.higher = false
+                        }
+                        if (this.higher == true)
+                        {
+                            this.spikes[x].y = this.spikes[x].pos_y-this.player.scale_y
+                        }
+                        else
+                        {
+                            this.spikes[x].y = this.spikes[x].pos_y
+                        }
+                        this.spikes[x].x = this.spikes[x].pos_x
                         this.spikes[x].instantiate = true;
                         this.spikes[x].speed = parseInt(this.spikes[x].speed_s + Math.random()*this.spikes[x].speed_d)
                         this.created = true
@@ -137,7 +155,7 @@ class Game{
                     {
                         if (this.player.image.src != this.player.jump)
                         {
-                            this.player.scaley = parseInt(this.player.scaley/1.5)
+                            this.player.scaley/=1.5;
                             this.player.image.src = "sprites/jump.png"
                             this.player.jump = true
                             this.pressed = true
@@ -172,7 +190,7 @@ class Game{
             {
                 if (this.player.image.src != this.player.jump)
                 {
-                    this.player.scaley = parseInt(this.player.scaley/1.5);
+                    this.player.scaley/=1.5;
                     this.player.image.src = "sprites/jump.png";
                     this.player.jump = true;
                 }
@@ -209,12 +227,11 @@ class Player{
     jump_(){
         if(this.jump == true){
             this.move = false;
-            this.jump_x +=0.8;
+            this.jump_x +=0.9;
             this.jump_y = parseInt(Math.pow(this.jump_x, 2)-150);
             this.y = (this.jump_y+game.height-this.pos_y-40);
             if (parseInt(this.jump_x) == 12)
             {
-                console.log("test");
                 if (game.start == false)
                 {
                     game.start = true;
@@ -294,39 +311,36 @@ class Spike{
         this.scalex = scalex;
         this.scaley = scaley;
         this.speed_s = 20;
-        this.speed_d = 0;
+        this.speed_d = 0.0;
         this.speed = 20;
         this.time = 0;
         this.instantiate = inst;
         this.ran = 0;
     }
     collision(){
-        if (game.player.x+game.player.scalex-10>this.x)
+        if (game.player.x+game.player.scalex-20>this.x)
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
-                if(this.x+this.scaley>game.player.y-30)
-                {
-                    game.clear();
-                    const canvas = document.getElementById("canvas");
-                    const c = canvas.getContext("2d");
-                    game.c = c;
-                    game.canvas = canvas;
-                    this.time = 0;
-                    game.start = false;
-                    game.canvas.style = "background-color: rgb(51, 54, 59)";
-                    game.c.font = "40px Times New Roman";
-                    game.c.fillStyle = "white";
-                    game.c.textAlign = "center";
-                    game.c.fillText("Game Over", parseInt(game.width/2), parseInt(game.height/2-50));
-                    game.c.fillText(game.coins+" points", parseInt(game.width/2), parseInt(game.height/2+50));
-                    game.player.x = game.player.pos_x;
-                    game.player.y = game.player.pos_y;
-                    game.ground.x = game.ground.pos_x;
-                    this.x = this.pos_x;
-                    this.clear = clearInterval(game.interval);
-                    game.state = 1;
-                }
+                game.clear();
+                const canvas = document.getElementById("canvas");
+                const c = canvas.getContext("2d");
+                game.c = c;
+                game.canvas = canvas;
+                this.time = 0;
+                game.start = false;
+                game.canvas.style = "background-color: rgb(51, 54, 59)";
+                game.c.font = "40px Times New Roman";
+                game.c.fillStyle = "white";
+                game.c.textAlign = "center";
+                game.c.fillText("Game Over", parseInt(game.width/2), parseInt(game.height/2-50));
+                game.c.fillText(game.coins+" points", parseInt(game.width/2), parseInt(game.height/2+50));
+                game.player.x = game.player.pos_x;
+                game.player.y = game.player.pos_y;
+                game.ground.x = game.ground.pos_x;
+                this.x = this.pos_x;
+                this.clear = clearInterval(game.interval);
+                game.state = 1;
             }  
         }
     }
@@ -344,17 +358,17 @@ class Spike{
             }
             else
             {
-                this.ran = parseInt(Math.random()*10)
-                if (this.ran == 1)
-                {
-                    if (this.speed_d < 15)
+                if (this.speed_d < 15.0)
                     {
                         this.speed_d += 0.5;
                         game.ground.speed += 0.3; 
                         game.ground.image_speed += 0.02;
                     }
+                this.x = this.pos_x;
+                this.ran = parseInt(Math.random()*5)
+                if (this.ran == 1)
+                {
                     this.instantiate = false
-                    this.y = this.pos_y;
                     this.x = this.pos_x;
                     this.time = 0;
                 }
