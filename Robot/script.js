@@ -27,12 +27,12 @@ class Game{
         this.coin_up = 1;
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)) 
         {
-            this.mobile = true;
+            this.mobile = false;
         }
         //Ipad
         if (navigator.userAgent == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15")
         {
-            this.mobile = true;
+            this.mobile = false;
         }
         if (this.mobile == false)
         {
@@ -172,9 +172,9 @@ class Game{
             {
                 if (this.player.image.src != this.player.jump)
                 {
-                    this.player.scaley = parseInt(this.player.scaley/1.5) 
-                    this.player.image.src = "sprites/jump.png"
-                    this.player.jump = true
+                    this.player.scaley = parseInt(this.player.scaley/1.5);
+                    this.player.image.src = "sprites/jump.png";
+                    this.player.jump = true;
                 }
             }
         }
@@ -182,10 +182,10 @@ class Game{
 }
 class Player{
     constructor(image, pos_x, pos_y, scale,){
-        this.static = image
-        this.move1 = "sprites/move1.png"
-        this.move2 = "sprites/move2.png"
-        this.jump = "sprites/jump.png"
+        this.static = image;
+        this.move1 = "sprites/move1.png";
+        this.move2 = "sprites/move2.png";
+        this.jump = "sprites/jump.png";
         this.image = document.createElement("img");
         this.image.src = this.static;
         this.pos_x = pos_x;
@@ -202,29 +202,29 @@ class Player{
         this.img_counter = 0;
         this.grav = 10;
         this.jump_speed = 15;
-        this.jump_y = this.pos_y
+        this.jump_y = this.pos_y;
         this.jump_x = -12.247;
         this.old_jump_x = -12.247;
     }
     jump_(){
         if(this.jump == true){
-            this.move = false
-            this.jump_x +=0.8
+            this.move = false;
+            this.jump_x +=0.8;
             this.jump_y = parseInt(Math.pow(this.jump_x, 2)-150);
             this.y = (this.jump_y+game.height-this.pos_y-40);
             if (parseInt(this.jump_x) == 12)
             {
-                console.log("test")
+                console.log("test");
                 if (game.start == false)
                 {
                     game.start = true;
                 }
-                this.jump_x = this.old_jump_x
-                this.y = this.pos_y
+                this.jump_x = this.old_jump_x;
+                this.y = this.pos_y;
                 this.jump = false;
-                this.scaley = this.old_scaley
-                this.move = true
-                this.img_counter = 0
+                this.scaley = this.old_scaley;
+                this.move = true;
+                this.img_counter = 0;
                 this.image.src = this.static;
             }
         }
@@ -340,7 +340,7 @@ class Spike{
             }
             else
             {
-                if (this.speed_d < 20)
+                if (this.speed_d < 15)
                 {
                     this.speed_d += 0.5;
                     game.ground.speed += 0.3; 
