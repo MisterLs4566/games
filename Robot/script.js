@@ -58,7 +58,7 @@ class Game{
     draw(event){
         this.c.drawImage(this.ground.image, this.ground.x, this.ground.y, this.ground.scalex, this.ground.scaley);
         this.c.drawImage(this.ground.image, this.ground.ground.x, this.ground.ground.y, this.ground.ground.scalex, this.ground.ground.scaley);
-        this.c.drawImage(this.player.image, this.player.x, this.player.y, this.player.scale, this.player.scale);
+        this.c.drawImage(this.player.image, this.player.x, parseInt(this.player.y), this.player.scale, this.player.scale);
         this.c.drawImage(this.spike.image, this.spike.x, this.spike.y, this.spike.scalex, this.spike.scaley);
         this.c.font = "40px Times New Roman";
         this.c.fillStyle = "white";
@@ -298,31 +298,35 @@ class Spike{
         this.speed = 20;
         this.time = 0;
         this.instantiate = inst;
+        this.ran = 0;
     }
     collision(){
-        if (game.player.x+game.player.scalex-20>this.x)
+        if (game.player.x+game.player.scalex-10>this.x)
         {
             if (game.player.y+game.player.scaley-30>this.y)
             {
-                game.clear();
-                const canvas = document.getElementById("canvas");
-                const c = canvas.getContext("2d");
-                game.c = c;
-                game.canvas = canvas;
-                this.time = 0;
-                game.start = false;
-                game.canvas.style = "background-color: rgb(51, 54, 59)";
-                game.c.font = "40px Times New Roman";
-                game.c.fillStyle = "white";
-                game.c.textAlign = "center";
-                game.c.fillText("Game Over", parseInt(game.width/2), parseInt(game.height/2-50));
-                game.c.fillText(game.coins+" points", parseInt(game.width/2), parseInt(game.height/2+50));
-                game.player.x = game.player.pos_x;
-                game.player.y = game.player.pos_y;
-                game.ground.x = game.ground.pos_x;
-                this.x = this.pos_x;
-                this.clear = clearInterval(game.interval);
-                game.state = 1;
+                if(this.x+this.scaley>game.player.y-30)
+                {
+                    game.clear();
+                    const canvas = document.getElementById("canvas");
+                    const c = canvas.getContext("2d");
+                    game.c = c;
+                    game.canvas = canvas;
+                    this.time = 0;
+                    game.start = false;
+                    game.canvas.style = "background-color: rgb(51, 54, 59)";
+                    game.c.font = "40px Times New Roman";
+                    game.c.fillStyle = "white";
+                    game.c.textAlign = "center";
+                    game.c.fillText("Game Over", parseInt(game.width/2), parseInt(game.height/2-50));
+                    game.c.fillText(game.coins+" points", parseInt(game.width/2), parseInt(game.height/2+50));
+                    game.player.x = game.player.pos_x;
+                    game.player.y = game.player.pos_y;
+                    game.ground.x = game.ground.pos_x;
+                    this.x = this.pos_x;
+                    this.clear = clearInterval(game.interval);
+                    game.state = 1;
+                }
             }  
         }
     }
@@ -340,16 +344,20 @@ class Spike{
             }
             else
             {
-                if (this.speed_d < 15)
+                this.ran = parseInt(Math.random()*10)
+                if (this.ran == 1)
                 {
-                    this.speed_d += 0.5;
-                    game.ground.speed += 0.3; 
-                    game.ground.image_speed += 0.02;
+                    if (this.speed_d < 15)
+                    {
+                        this.speed_d += 0.5;
+                        game.ground.speed += 0.3; 
+                        game.ground.image_speed += 0.02;
+                    }
+                    this.instantiate = false
+                    this.y = this.pos_y;
+                    this.x = this.pos_x;
+                    this.time = 0;
                 }
-                this.instantiate = false;
-                this.y = this.pos_y;
-                this.x = this.pos_x;
-                this.time = 0;
             }
         } 
     }
